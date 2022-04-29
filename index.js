@@ -1,11 +1,12 @@
 const express = require("express"),
   morgan = require("morgan"),
   fs = require("fs"),
-  path = require("path");
-const app = express();
+  path = require("path"),
+  uuid = require('uuid'),
+  bodyParser = ('body-parser')
+  const app = express();
 
-const bodyParser = require("body-parser"),
-  methodOverride = require("method-override");
+
 
 let myMovies = [
   {
@@ -83,31 +84,80 @@ let myMovies = [
   },
 ];
 
-//Get requests
 
-app.get("/", (req, res) => {
-  res.send("Welcome to my top Horror Movie List");
+
+
+
+
+//START NEW GET REQUESTS
+
+// Gets the list of data about ALL students
+
+app.get('/movies', (req, res) => {
+  res.json(myMovies);
 });
-
-app.get("/movies", (req, res) => {
+// Gets the data about movies by title
+app.get('/movies/:title', (req, res) => {
   res.json(myMovies);
 });
 
-app.use(express.static("public"));
 
-//Error handling
+// Adds data for a new student to our list of students.
+app.post('/students', (req, res) => {
+  let newStudent = req.body;
 
-app.use(
-  bodyParser.urlencoded({
-    extend: true,
-  })
-);
+  if (!newStudent.name) {
+    const message = 'Missing name in request body';
+    res.status(400).send(message);
+  } else {
+    newStudent.id = uuid.v4();
+    students.push(newStudent);
+    res.status(201).send(newStudent);
+  }
+});
 
-app.use(bodyParser.json());
-app.use(methodOverride());
+// Deletes a student from our list by ID
+app.delete('/students/:id', (req, res) => {
+  let student = students.find((student) => { return student.id === req.params.id });
 
-app.use((err, req, res, next) => {
-  console.log(err.stack);
+  if (student) {
+    students = students.filter((obj) => { return obj.id !== req.params.id });
+    res.status(201).send('Student ' + req.params.id + ' was deleted.');
+  }
+});
+
+// Update the "grade" of a student by student name/class name
+app.put('/students/:name/:class/:grade', (req, res) => {
+  let student = students.find((student) => { return student.name === req.params.name });
+
+  if (student) {
+    student.classes[req.params.class] = parseInt(req.params.grade);
+    res.status(201).send('Student ' + req.params.name + ' was assigned a grade of ' + req.params.grade + ' in ' + req.params.class);
+  } else {
+    res.status(404).send('Student with the name ' + req.params.name + ' was not found.');
+  }
+});
+
+// Gets the GPA of a student
+app.get('/students/:name/gpa', (req, res) => {
+  let student = students.find((student) => { return student.name === req.params.name });
+
+  if (student) {
+    let classesGrades = Object.values(student.classes); // Object.values() filters out object's keys and keeps the values that are returned as a new array
+    let sumOfGrades = 0;
+    classesGrades.forEach(grade => {
+      sumOfGrades = sumOfGrades + grade;
+    });
+
+    let gpa = sumOfGrades / classesGrades.length;
+    console.log(sumOfGrades);
+    console.log(classesGrades.length);
+    console.log(gpa);
+    res.status(201).send('' + gpa);
+    //res.status(201).send(gpa);
+  } else {
+    res.status(404).send('Student with the name ' + req.params.name + ' was not found.');
+  }
 });
 
 //Morgan logging
