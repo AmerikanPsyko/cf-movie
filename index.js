@@ -96,10 +96,19 @@ let myMovies = [
 app.get('/movies', (req, res) => {
   res.json(myMovies);
 });
-// Gets the data about movies by title
-app.get('/movies/:title', (req, res) => {
-  res.json(myMovies);
+
+// Get list of movies by production
+app.put('/students/:name/:class/:grade', (req, res) => {
+  let prod = myMovies.find((prod) => { return myMovies.prod === req.params.prod });
+
+  if (prod) {
+    movies.production[req.params.production] = parseInt(req.params.production);
+    res.status(201).send('Student ' + req.params.prod ');
+  } else {
+    res.status(404).send('Student with the name ' + req.params.name + ' was not found.');
+  }
 });
+
 
 
 // Adds data for a new student to our list of students.
