@@ -1,3 +1,6 @@
+const res = require("express/lib/response");
+const { title } = require("process");
+
 const express = require("express"),
   morgan = require("morgan"),
   fs = require("fs"),
@@ -8,7 +11,8 @@ const express = require("express"),
 
 
 
-let myMovies = [
+let movies = [
+ 
   {
     title: "Paranormal Activity",
     producer: "Oren Peli",
@@ -91,83 +95,54 @@ let myMovies = [
 
 //START NEW GET REQUESTS
 
-// Gets the list of data about ALL students
+// Get requests
+
+app.get('/', (req,res) => {
+  res.send('Welcome to the Horror Movie Movie Vault');
+});
+
+
+
+app.get('/documentation', (req,res) => {
+  
+})
+
+// Gets the list of data about ALL students:
 
 app.get('/movies', (req, res) => {
-  res.json(myMovies);
+  res.json(movies);
+  res.send('Successfully Get request returning data on all movies');
 });
 
-// Get list of movies by production
-app.put('/students/:name/:class/:grade', (req, res) => {
-  let prod = myMovies.find((prod) => { return myMovies.prod === req.params.prod });
+// Get list of movies by title:
 
-  if (prod) {
-    movies.production[req.params.production] = parseInt(req.params.production);
-    res.status(201).send('Student ' + req.params.prod ');
-  } else {
-    res.status(404).send('Student with the name ' + req.params.name + ' was not found.');
-  }
+app.get('/title/', (req,res) => {
+  res.json(movies.find((movies) =>
+  {return movies.title === req.params.title} ));
+  res.send('Successfully Get request returning data on movie titles');
 });
 
 
+// Get list of movies by production company: 
 
-// Adds data for a new student to our list of students.
-app.post('/students', (req, res) => {
-  let newStudent = req.body;
-
-  if (!newStudent.name) {
-    const message = 'Missing name in request body';
-    res.status(400).send(message);
-  } else {
-    newStudent.id = uuid.v4();
-    students.push(newStudent);
-    res.status(201).send(newStudent);
-  }
+app.get('/movies/:production', (req, res) => {
+  res.json(movies.find( (movies) =>
+  { return movies.production === req.params.production} ));
+  res.send('Successfully Get request returning data on production company');
 });
 
-// Deletes a student from our list by ID
-app.delete('/students/:id', (req, res) => {
-  let student = students.find((student) => { return student.id === req.params.id });
+// Get list of movies by release date:
 
-  if (student) {
-    students = students.filter((obj) => { return obj.id !== req.params.id });
-    res.status(201).send('Student ' + req.params.id + ' was deleted.');
-  }
+app.get('/movies/:release', (req, res) => {
+  res.json(movies.find( (movies) =>
+  { return movies.release === req.params.release} ));
+  res.send('Successfully Get request returning data on all movie release');
 });
 
-// Update the "grade" of a student by student name/class name
-app.put('/students/:name/:class/:grade', (req, res) => {
-  let student = students.find((student) => { return student.name === req.params.name });
 
-  if (student) {
-    student.classes[req.params.class] = parseInt(req.params.grade);
-    res.status(201).send('Student ' + req.params.name + ' was assigned a grade of ' + req.params.grade + ' in ' + req.params.class);
-  } else {
-    res.status(404).send('Student with the name ' + req.params.name + ' was not found.');
-  }
-});
+// Documentation
+app.use(express.static('public'));
 
-// Gets the GPA of a student
-app.get('/students/:name/gpa', (req, res) => {
-  let student = students.find((student) => { return student.name === req.params.name });
-
-  if (student) {
-    let classesGrades = Object.values(student.classes); // Object.values() filters out object's keys and keeps the values that are returned as a new array
-    let sumOfGrades = 0;
-    classesGrades.forEach(grade => {
-      sumOfGrades = sumOfGrades + grade;
-    });
-
-    let gpa = sumOfGrades / classesGrades.length;
-    console.log(sumOfGrades);
-    console.log(classesGrades.length);
-    console.log(gpa);
-    res.status(201).send('' + gpa);
-    //res.status(201).send(gpa);
-  } else {
-    res.status(404).send('Student with the name ' + req.params.name + ' was not found.');
-  }
-});
 
 //Morgan logging
 app.use(morgan("common"));
