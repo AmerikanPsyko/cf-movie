@@ -121,6 +121,11 @@ app.get("/movies/:genre", (req, res) => {
 
 // Returns movie director
 
+app.get("/director/:name", (req,res) => {
+ res.json(director.find((director) => {
+   return director.name === req.params.director
+ }));
+});
 
 // Documentation
 app.use(express.static("public"));
