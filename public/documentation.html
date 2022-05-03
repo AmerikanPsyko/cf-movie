@@ -59,22 +59,24 @@
               >
             </td>
           </tr>
-          <tbody>
-            <tr>
-              <td>Get</td>
-              <td>Return data</td>
-              <td>
-                Returns JSON Objects
-                <pre>
+        </tbody>
+
+        <tbody>
+          <tr>
+            <td>Get</td>
+            <td>Return data</td>
+            <td>
+              Returns JSON Objects
+              <pre>
    
                           {
                             title: 
                           }
                       
                       </pre
-                >
-              </td>
-            </tr>
+              >
+            </td>
+          </tr>
           <tr>
             <td>Get</td>
             <td>/movies/[genre]</td>
@@ -82,10 +84,7 @@
               Returns JSON Object with list of horror movies by genre
               <pre>
  
-                        {
-                          name: 'Horror',
-                          description: ''
-                        }
+                      name: string
                     
                     </pre
               >
@@ -103,17 +102,14 @@
                          name: string,
                          birth: string, 
                          image: string, 
-                         
-                          
+                         feature: boolean
                         }
                     
                     </pre
               >
             </td>
           </tr>
-          
-          
-       
+
           <tr>
             <td>POST</td>
             <td>/users</td>
@@ -137,7 +133,7 @@
             <td>PUT</td>
             <td>/users/[name]</td>
             <td>
-              Users can update their personal info and will update via JSON 
+              Users can update their personal info and will update via JSON
               <pre>
       {
         Username: String,
@@ -166,7 +162,6 @@
             <td>/users/[username]</td>
             <td>Users can delete their account</td>
           </tr>
-
         </tbody>
       </table>
     </section>
