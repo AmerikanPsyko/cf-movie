@@ -42,10 +42,50 @@
               Returns JSON Object with list of horror movies
               <pre>
  
-                        {Title: String,
-                        Director: String,
-                        Production: String,
-                        Release Date: String,}
+                        {title: string,
+                         description: string, 
+                         genre: string,
+
+                         director: {
+                           name: string,
+                           birth: string,
+                           image: string,
+                           featured: boolean
+                         },
+
+                        }
+                    
+                    </pre
+              >
+            </td>
+          </tr>
+          <tbody>
+            <tr>
+              <td>Get</td>
+              <td>Return data</td>
+              <td>
+                Returns JSON Objects
+                <pre>
+   
+                          {
+                            title: 
+                          }
+                      
+                      </pre
+                >
+              </td>
+            </tr>
+          <tr>
+            <td>Get</td>
+            <td>/movies/[genre]</td>
+            <td>
+              Returns JSON Object with list of horror movies by genre
+              <pre>
+ 
+                        {
+                          name: 'Horror',
+                          description: ''
+                        }
                     
                     </pre
               >
@@ -54,53 +94,25 @@
 
           <tr>
             <td>Get</td>
-            <td>/movies/[title]</td>
+            <td>/movies/[director]</td>
             <td>
-              Returns JSON Object with list of horror movies by title
+              Returns JSON Object with list of horror movies by Director
               <pre>
  
-                        {Title: String,
-                        Director: String,
-                        Production: String,
-                        Release Date: String,}
+                        {
+                         name: string,
+                         birth: string, 
+                         image: string, 
+                         
+                          
+                        }
                     
                     </pre
               >
             </td>
           </tr>
-
-          <tr>
-            <td>Get</td>
-            <td>/movies/production/[name]</td>
-            <td>
-              Returns JSON Object with list of horror movies by production company name
-              <pre>
- 
-                        {Title: String,
-                        Director: String,
-                        Production: String,}
-                    
-                    </pre
-              >
-            </td>
-          </tr>
-
-          <tr>
-            <td>Get</td>
-            <td>/movies/release/[date]</td>
-            <td>
-              Returns JSON Object with list of horror movies by release date
-              <pre>
- 
-                        {Title: String,
-                        Director: String,
-                        Production: String,
-                        Release Date: String,}
-                    
-                    </pre
-              >
-            </td>
-          </tr>
+          
+          
        
           <tr>
             <td>POST</td>
