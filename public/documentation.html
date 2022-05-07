@@ -42,15 +42,14 @@
               Returns JSON Object with list of horror movies
               <pre>
  
-                        {title: string,
-                         description: string, 
-                         genre: string,
-
-                         director: {
-                           name: string,
-                           birth: string,
-                           image: string,
-                           featured: boolean
+                        {
+                          MovieID: Number,
+                          Title: String,
+                          Description: String,
+                          GenreID: Number,
+                          DirectorID: Number,
+                          ImageURL: String,
+                          Featured: Boolean
                          },
 
                         }
@@ -165,6 +164,26 @@
           </tr>
         </tbody>
       </table>
+
+      <tr>
+            <td>PUT</td>
+            <td>/favorites/[username]/[movieID]</td>
+            <td>Users can create entries for their "favorite" list</td>
+          </tr>
+          <tr>
+            <td>DELETE</td>
+            <td>/favorites/[username]/[movieID]</td>
+            <td>Users can remove entries from their "favorite" list</td>
+          </tr>
+
+          <tr>
+            <td>DELETE</td>
+            <td>/users/[username]</td>
+            <td>Users can delete their account</td>
+          </tr>
+        </tbody>
+      </table>
+
     </section>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
