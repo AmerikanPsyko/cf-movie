@@ -1,15 +1,13 @@
+// Variables and imports
 const res = require("express/lib/response");
 const { title } = require("process");
+const mongoose = require('./models.js');
+const Models = require('./models.js');
 
-const express = require("express"),
-  morgan = require("morgan"),
-  fs = require("fs"),
-  path = require("path"),
-  uuid = require("uuid"),
-  bodyParser = require("body-parser");
-
-const app = express();
-app.use(bodyParser.json());
+const Movies = Models.Movie;
+const Users = Models.User;
+const Director = Models.Director;
+const Genre = Models.Genre;
 
 let movies = [
   {
@@ -122,6 +120,22 @@ let users = [
     favoriteMovies: [],
   },
 ];
+
+const express = require("express"),
+  morgan = require("morgan"),
+  fs = require("fs"),
+  path = require("path"),
+  uuid = require("uuid"),
+  bodyParser = require("body-parser");
+
+const app = express();
+app.use(bodyParser.json());
+
+// Connect to mongodb database "myFlix"
+mongoose.connect('mongodb://localhost:27017/myFlix', {userNewURLParser: true, useUnifiedTopology: true});
+
+
+
 
 //START NEW GET REQUESTS
 
