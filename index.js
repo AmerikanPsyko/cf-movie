@@ -6,8 +6,7 @@ const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Director = Models.Director;
-const Genre = Models.Genre;
+
 
 let movies = [
   {
@@ -154,34 +153,48 @@ app.get("/movies", (req, res) => {
 // Returns list of movie titles
 
 app.get("/movies/:title", (req, res) => {
-  const { title } = req.params;
-  const movie = movies.find((movie) => movie.title === title);
+  // const { title } = req.params;
+  // const movie = movies.find((movie) => movie.title === title);
 
-  if (movie) {
-    res.status(200).json(movie);
-  } else res.status(400).send("no such movie found");
+  // if (movie) {
+  //   res.status(200).json(movie);
+  // } else res.status(400).send("no such movie found");
+
+  Movie.findOne({ Title: "Paranormal Activity"}).then((Movie) => {
+    if(Movie) {
+      res.status(200).json(Movie);
+    } else {
+      res.status(400).send('Movie not found.');
+    }
+  });
+
 });
 
 // Returns movie genre
 
-// app.get("/movies/genre/:genreName", (req, res) => {
+app.get("/movies/genre/:genreName", (req, res) => {
 //   const { genreName } = req.params;
 //   const genre = movies.find((movie) => movie.genre.name === genreName).genre;
 
 //   if (genre) {
 //     res.status(200).json(genre);
 //   } else res.status(400).send("no such genre found");
-// });
 
-app.get("/movies/genre/:genreName", (req, res) => {
+
+
+});
+
+app.get("/movies/genre/", (req, res) => {
   // const { genreName } = req.params;
   // const genre = movies.find((movie) => movie.genre.name === genreName).genre;
 
-  Genre.find(horror).then(users => res.json(users));
-
-  if (genre) {
-    res.status(200).json(genre);
-  } else res.status(400).send("no such genre found");
+  Movies.find({ 'Genre.Name': "Horror"  }).then((err, Movies) => {
+    if (movie) {
+      res.status(200).send(`${req.params.title} is a ${movie.Genre.Name}`);
+    } else {
+      res.status(400).send('Movie not found.');
+    }
+  });
 });
 
 // Returns movie director
@@ -297,6 +310,6 @@ app.use(express.static("public"));
 app.use(morgan("common"));
 
 //Listen for requests
-app.listen(8080, () => {
-  console.log("Your app is listening on port 8080.");
+app.listen(27017, () => {
+  console.log("Your app is listening on port 27017.");
 });
