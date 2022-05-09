@@ -1,14 +1,12 @@
 // Variables and imports
 const res = require("express/lib/response");
 const { title } = require("process");
-// const mongoose = require('mongoose');
+;
 const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
-// Connect to mongodb database "myFlix"
-// mongoose.connect('mongodb://localhose:27017/cfMovies', { useNewUrlParser: true, useUnifiedTopology: true,});
 
 
 
@@ -318,3 +316,6 @@ app.use(morgan("common"));
 app.listen(8080, () => {
   console.log("Your app is listening on port 8080.");
 });
+
+
+// Start Dev: npm run dev

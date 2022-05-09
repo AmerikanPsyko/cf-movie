@@ -1,4 +1,4 @@
-// const mongoose = require('mongoose');
+
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
 
