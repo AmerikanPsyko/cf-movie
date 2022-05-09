@@ -142,7 +142,7 @@ mongoose.connect('mongodb://localhost:27017/cfMovies', {userNewURLParser: true, 
 // Get requests
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the Horror Movie Movie Vault");
+  res.send("Welcome to the Movie Vault");
 });
 
 // Returns list of all data
