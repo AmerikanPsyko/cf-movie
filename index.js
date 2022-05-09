@@ -132,7 +132,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // Connect to mongodb database "myFlix"
-mongoose.connect('mongodb://localhost:27017/myFlix', {userNewURLParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost:27017/cfMovies', {userNewURLParser: true, useUnifiedTopology: true});
 
 
 
