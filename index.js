@@ -1,11 +1,17 @@
 // Variables and imports
 const res = require("express/lib/response");
 const { title } = require("process");
-const mongoose = require('./models.js');
+// const mongoose = require('mongoose');
 const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
+
+// Connect to mongodb database "myFlix"
+// mongoose.connect('mongodb://localhose:27017/cfMovies', { useNewUrlParser: true, useUnifiedTopology: true,});
+
+
+
 
 
 let movies = [
@@ -126,12 +132,11 @@ const express = require("express"),
   path = require("path"),
   uuid = require("uuid"),
   bodyParser = require("body-parser");
+const { handle } = require("express/lib/application");
 
 const app = express();
 app.use(bodyParser.json());
 
-// Connect to mongodb database "myFlix"
-mongoose.connect('mongodb://localhost:27017/cfMovies', {userNewURLParser: true, useUnifiedTopology: true});
 
 
 
@@ -310,6 +315,6 @@ app.use(express.static("public"));
 app.use(morgan("common"));
 
 //Listen for requests
-app.listen(27017, () => {
-  console.log("Your app is listening on port 27017.");
+app.listen(8080, () => {
+  console.log("Your app is listening on port 8080.");
 });
