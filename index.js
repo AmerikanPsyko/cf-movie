@@ -164,9 +164,20 @@ app.get("/movies/:title", (req, res) => {
 
 // Returns movie genre
 
+// app.get("/movies/genre/:genreName", (req, res) => {
+//   const { genreName } = req.params;
+//   const genre = movies.find((movie) => movie.genre.name === genreName).genre;
+
+//   if (genre) {
+//     res.status(200).json(genre);
+//   } else res.status(400).send("no such genre found");
+// });
+
 app.get("/movies/genre/:genreName", (req, res) => {
-  const { genreName } = req.params;
-  const genre = movies.find((movie) => movie.genre.name === genreName).genre;
+  // const { genreName } = req.params;
+  // const genre = movies.find((movie) => movie.genre.name === genreName).genre;
+
+  Genre.find(horror).then(users => res.json(users));
 
   if (genre) {
     res.status(200).json(genre);
