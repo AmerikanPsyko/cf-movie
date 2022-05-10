@@ -1,6 +1,6 @@
 
-let Movie = mongoose.model('Movie', movieSchema);
-let User = mongoose.model('User', userSchema);
+let Movie = mongoose.model('movie', movieSchema);
+let User = mongoose.model('user', userSchema);
 
 
 let movieSchema = mongoose.Schema({
