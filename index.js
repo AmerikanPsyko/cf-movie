@@ -135,6 +135,8 @@ const { handle } = require("express/lib/application");
 const app = express();
 app.use(bodyParser.json());
 
+// Connect to mongodb database "myFlix"
+mongoose.connect('mongodb://localhost:27017/myFlix', {userNewURLParser: true, useUnifiedTopology: true});
 
 
 
