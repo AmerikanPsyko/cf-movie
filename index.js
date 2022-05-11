@@ -10,14 +10,24 @@ const express = require("express"),
   bodyParser = require("body-parser");
 
 
+
+  
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Authenticate and Authorize
+//---------------------------
 
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
+//----------------------------
+//----------------------------
+
+//Mongoose connector to connect to MongoDB
+//----------------------------------------
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 const { generateKey } = require("crypto");
@@ -27,6 +37,10 @@ const Users = Models.User;
 
 //Connect mongoDB
 mongoose.connect('mongodb://localhost:27017/cfMovies', {useNewUrlParser: true, useUnifiedTopology: true});
+
+//-----------------------------------------
+//-----------------------------------------
+
 
 //API Routes -----------
 //----------------------
@@ -52,7 +66,7 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), (req,res) => 
 
 // Return data on single movie
 
-app.get('/movies/:Title', (req,res) => {
+app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req,res) => {
   Movies.findOne( {Title: req.params.Title} )
   .then((movie) => {
     res.json(movie);
@@ -66,7 +80,7 @@ app.get('/movies/:Title', (req,res) => {
 
 // Return data on genre
 
-app.get('/genre/:Name', (req, res) => {
+app.get('/genre/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({ 'Genre.Name': req.params.Name })
     .then((movie) => {
       if(movie){ 
@@ -83,7 +97,7 @@ app.get('/genre/:Name', (req, res) => {
 
 // Return data on director
 
-app.get('/director/:Name', (req, res) => {
+app.get('/director/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.findOne({ 'Director.Name': req.params.Name })
   .then((movie) => {
     if(movie){ 
