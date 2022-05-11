@@ -14,8 +14,8 @@
   </head>
   <body>
     <section>
-      <h1>Horror movie list API</h1>
-      <p>This will return information of horror movies to the user request</p>
+      <h1>Movie API</h1>
+      <p>This will return information of movies to the user request</p>
       <p>
         Users will be able to query specific information about horror movies
         such as Director, Production Studio, and release date
@@ -29,158 +29,292 @@
       <table class="table table-bordered">
         <thead class="dark">
           <tr>
-            <th>Method</th>
-            <th>Endpoint</th>
-            <th>Response</th>
+            <th>Request</th>
+            <th>URL</th>
+            <th>Request Parameter</th>
+            <th>HTTP</th>
+            <th>Response body data</th>
+            <th>Request body data</th>
+            <th>Example</th>
           </tr>
         </thead>
+        <tbody>
+        
+              <pre>
+ 
+                        
+                { MovieID: Number,
+                  Title: String,
+                  Description: String,
+                  GenreID: Number,
+                  DirectorID: Number,
+                  ImageURL: String,
+                  Featured: Boolean },
+                         
+              </pre
+                        
+                    
+                    
+              >
+            </td>
+          </tr>
+        </tbody>
+
         <tbody>
           <tr>
             <td>Get</td>
             <td>/movies</td>
             <td>
-              Returns JSON Object with list of horror movies
+             
               <pre>
- 
-                        
-                        { MovieID: Number,
-                          Title: String,
-                          Description: String,
-                          GenreID: Number,
-                          DirectorID: Number,
-                          ImageURL: String,
-                          Featured: Boolean },
-                         
-
-                        
-                    
-                    </pre
-              >
-            </td>
-          </tr>
-        </tbody>
-
-        <tbody>
-          <tr>
-            <td>Get</td>
-            <td>Return data</td>
-            <td>
-              Returns JSON Objects
-              <pre>
-   
-                          {
-                            title: 
-                          }
-                      
-                      </pre
-              >
+                app.get('/movies', (req,res) => {
+                  Movies.find()
+                  .then((movies) => {
+                    res.status(201).json(movies);
+                  })
+              </pre>
+              <td>NA</td>
+              <td>Returns JSON data of all movies in Database</td>
+              <td>NA</td>
+              <td>{Title: "", Description: ""}
+                <br>Director: {Name: "", Bio: ""}
+                <br>Genre: {Name: "", Description: ""}
+              </td>
             </td>
           </tr>
           <tr>
             <td>Get</td>
-            <td>/movies/[genre]</td>
+            <td>/movies/:Title</td>
             <td>
-              Returns JSON Object with list of horror movies by genre
+              
               <pre>
- 
-                      name: string
-                      description: string
-                    
-                    </pre
-              >
+                app.get('/movies/:Title', (req,res) => {
+                  Movies.findOne( {Title: req.params.Title} )
+                  .then((movie) => {
+                    res.json(movie);
+                  })
+              </pre>
+              <td>:Title</td>
+              <td>Returns JSON data of single movie request by specific title in Database</td>
+              <td>NA</td>
+              <td>{Title: "", Description: ""}
+                <br>Director: {Name: "", Bio: ""}
+                <br>Genre: {Name: "", Description: ""}
+              </td>
             </td>
           </tr>
 
           <tr>
             <td>Get</td>
-            <td>/movies/[director]</td>
+            <td>/genre/:Name</td>
             <td>
-              Returns JSON Object with list of horror movies by Director
+              
               <pre>
- 
-                        {
-                         name: string,
-                         birth: string, 
-                         image: string, 
-                         feature: boolean
-                        }
-                    
-                    </pre
-              >
+                app.get('/genre/:Name', (req, res) => {
+                  Movies.findOne({ 'Genre.Name': req.params.Name })
+                  .then((movie) => {
+                    if(movie){ 
+                       res.status(200).json(movie.Genre.Description);
+              </pre>
+              <td>:genreName</td>
+              <td>Returns JSON data of description of Genre for movies in the Database for movies</td>
+              <td>NA</td>
+              <td>
+                Genre: {Name: "", Description: ""}
+              </td>
             </td>
           </tr>
 
           <tr>
-            <td>POST</td>
+            <td>Get</td>
+            <td>/director/:Name</td>
+            <td>
+              
+              <pre>
+                app.get('/director/:Name', (req, res) => {
+                  Movies.findOne({ 'Director.Name': req.params.Name })
+                  .then((movie) => {
+                    if(movie){ 
+                       res.status(200).json(movie.Director);
+              </pre>
+              <td>:directorName</td>
+              <td>Returns JSON data on directors of movies in the Database</td>
+              <td>NA</td>
+              <td>
+                Director: {Name: "", Description: "", Bio: "", Birth: "", ImageURL: "", Featured: ""}
+              </td>
+            </td>
+          </tr>
+      
+
+          <tr>
+            <td>Put</td>
             <td>/users</td>
             <td>
-              Allows User to sign up/register
+              
               <pre>
-      {
-        Username: String,
-        (required)
-        Password: String,
-        (required)
-        Email: String,
-        (required)
-        Birthday: Date
-      }
+                Users.findOne({ Username: req.body.Username })
+                .then((user) => {
+                    if (user) {
+                    return res.status(400).send(req.body.Username + 'already exists');
+                    } else {
+                      Users
+                      .create({
+                          Username: req.body.Username,
+                          Password: req.body.Password,
+                          Email: req.body.Email,
+                          Birthday: req.body.Birthday
+          })
               </pre>
+              <td>NA</td>
+              <td>Adds user JSON data to Database for new user entry</td>
+              <td>NA</td>
+              <td>
+                {
+                  Username: String,
+                  Password: String,
+                  Email: String,
+                  Birthday: Date
+                  Favorites: String, []
+                }
+              </td>
             </td>
           </tr>
 
           <tr>
-            <td>PUT</td>
-            <td>/users/[name]</td>
+            <td>Post</td>
+            <td>/users/:Username</td>
             <td>
-              Users can update their personal info and will update via JSON
+              
               <pre>
-      {
-        Username: String,
-        (required)
-        Password: String,
-        Email: String,
-        Birthday: Date
-      }
+                Users.findOne({ Username: req.body.Username })
+                  .then((user) => {
+                    if (user) {
+                    return res.status(400).send(req.body.Username + 'already exists');
+                  } else {
+                      Users
+                      .create({
+                          Username: req.body.Username,
+                          Password: req.body.Password,
+                          Email: req.body.Email,
+                          Birthday: req.body.Birthday
+          })
               </pre>
+              <td>:Username</td>
+              <td>Updates user data for user in Database</td>
+              <td>NA</td>
+              <td>
+                {
+                  Username: String,
+                  Password: String,
+                  Email: String,
+                  Birthday: Date
+                  Favorites: String, []
+                }
+              </td>
             </td>
           </tr>
 
           <tr>
-            <td>PUT</td>
-            <td>/favorites/[username]/[movieID]</td>
-            <td>Users can create entries for their "favorite" list</td>
-          </tr>
-          <tr>
-            <td>DELETE</td>
-            <td>/favorites/[username]/[movieID]</td>
-            <td>Users can remove entries from their "favorite" list</td>
+            <td>Put</td>
+            <td>/users/:Username</td>
+            <td>
+              
+              <pre>
+                Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+                  {
+                    Username: req.body.Username,
+                    Password: req.body.Password,
+                    Email: req.body.Email,
+                    Birthday: req.body.Birthday
+                  }
+                },
+                { new: true }, 
+              </pre>
+              <td>:Username</td>
+              <td>Updates user data for user in Database</td>
+              <td>NA</td>
+              <td>
+                {
+                  Username: String,
+                  Password: String,
+                  Email: String,
+                  Birthday: Date
+                  Favorites: String, []
+                }
+              </td>
+            </td>
           </tr>
 
           <tr>
-            <td>DELETE</td>
-            <td>/users/[username]</td>
-            <td>Users can delete their account</td>
+            <td>Post</td>
+            <td>/users/:Username/movies/:MovieID</td>
+            <td>
+              
+              <pre>
+                app.post('/users/:Username/movies/:MovieID', (req, res) => {
+                  Users.findOneAndUpdate({ Username: req.params.Username }, {
+                     $push: { Favorites: req.params.MovieID }
+                   },
+                   { new: true }, 
+              </pre>
+              <td>:Username/movies/:MovieID</td>
+              <td>Allow users to update Favorite movies on thier account in the Database</td>
+              <td>NA</td>
+              <td>
+               Displays message movie has been added via DOM
+              </td>
+            </td>
           </tr>
-        </tbody>
-      </table>
 
-      <tr>
-            <td>PUT</td>
-            <td>/favorites/[username]/[movieID]</td>
-            <td>Users can create entries for their "favorite" list</td>
-          </tr>
           <tr>
-            <td>DELETE</td>
-            <td>/favorites/[username]/[movieID]</td>
-            <td>Users can remove entries from their "favorite" list</td>
+            <td>Delete</td>
+            <td>/users/:Username</td>
+            <td>
+              
+              <pre>
+                app.delete('/users/:Username', (req,res) => {
+                  Users.findOneAndRemove({ Username: req.params.Username})
+                  .then((user) => {
+                    if (!user) {
+                      res.status(400).send(req.params.Username + ' was not found'); 
+                    } else {
+                      res.status(200).send(req.params.Username + ' was deleted.');
+                    }
+                  })
+              </pre>
+              <td>:Username</td>
+              <td>Allow users to be deleted from the Database</td>
+              <td>NA</td>
+              <td>
+               Displays message user has been deleted via DOM
+              </td>
+            </td>
           </tr>
 
           <tr>
-            <td>DELETE</td>
-            <td>/users/[username]</td>
-            <td>Users can delete their account</td>
+            <td>Delete</td>
+            <td>/users/:Username/movies/:MovieID</td>
+            <td>
+              
+              <pre>
+                app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+                  Users.findOneAndUpdate({ Username: req.params.Username }, {
+                     $pull: { Favorites: req.params.MovieID }
+                   },
+              </pre>
+              <td>:Username/movies/:MovieID</td>
+              <td>Allow users to delete movies from their favorites saved in the Database</td>
+              <td>NA</td>
+              <td>
+               Displays message favorite movie has been deleted via DOM
+              </td>
+            </td>
           </tr>
+
+          
+
+      
         </tbody>
       </table>
 
