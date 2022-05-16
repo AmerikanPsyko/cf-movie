@@ -65,12 +65,8 @@ const Users = Models.User;
 
 //Connect mongoDB
 // mongoose.connect('mongodb://localhost:27017/cfMovies', {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect( process.env.MAIN_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connection.once('open', function(){
-  console.log('Conection has been made!');
-}).on('error', function(error){
-    console.log('Error is: ', error);
-});
+mongoose.connect( process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true});
+
 
 
 //-----------------------------------------
