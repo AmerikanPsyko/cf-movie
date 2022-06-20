@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const cors = require('cors');
 app.use(cors());
 
-let allowedOrigins = 'http://localhost:8080, http://localhost:1234, https://cfmyflix.herokuapp.com/';
+let allowedOrigins = 'localhost:8080, localhost:1234, https://cfmyflix.herokuapp.com/';
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -84,7 +84,7 @@ app.get('/', (req,res) => {
 
 // Return list of all Movies
 
-app.get('/movies', passport.authenticate('jwt', {session: false}), (req,res) => {
+app.get('/movies', passport.authenticate('jwt', {session: true}), (req,res) => {
   // app.get('/movies', (req,res) => {
   Movies.find()
   .then((movies) => {
