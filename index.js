@@ -186,8 +186,19 @@ check('Email', 'Email does not appear to be valid').isEmail()
 
 // Update User info
 
-app.put('/users/:Username', (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+app.put('/users/:username',[
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+],passport.authenticate('jwt', { session: false }),(req,res)=>{
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  Users.findOneAndUpdate({Username:req.params.username
+  },{ $set:
     {
       Username: req.body.Username,
       Password: req.body.Password,
@@ -195,15 +206,15 @@ app.put('/users/:Username', (req, res) => {
       Birthday: req.body.Birthday
     }
   },
-  { new: true }, 
-  (err, updatedUser) => {
-    if(err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    } else {
-      res.json(updatedUser);
-    }
-  });
+  {new:true}
+  )
+  .then(updatedUser=>{
+    res.status(201).json(updatedUser)
+  })
+  .catch(error=>{
+    console.error(error);
+    res.status(500).send('Error :' + error)
+  })
 });
 
 // Allow user to update favorite movies 
