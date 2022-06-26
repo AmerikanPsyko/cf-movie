@@ -227,7 +227,8 @@ app.get(
 // 	}
 // );
 
-Get all user by username
+// Get all user by username
+// Broken?
 app.get(
 	'/users/:Username',
 	passport.authenticate('jwt', { session: false }),
