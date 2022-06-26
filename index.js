@@ -186,7 +186,7 @@ check('Email', 'Email does not appear to be valid').isEmail()
 
 // Update User info
 
-app.get(
+app.put(
 	'/users/:Username',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
