@@ -186,25 +186,30 @@ check('Email', 'Email does not appear to be valid').isEmail()
 
 // Update User info
 
-app.put('/users/:Username', (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
-    {
-      Username: req.body.Username,
-      Password: req.body.Password,
-      Email: req.body.Email,
-      Birthday: req.body.Birthday
-    }
-  },
-  { new: true }, 
-  (err, updatedUser) => {
-    if(err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    } else {
-      res.json(updatedUser);
-    }
-  });
-});
+app.get(
+	'/users/:Username',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Users.findOne({ Username: req.params.Username })
+			.then((user) => {
+				if (user) {
+					respData = {
+						Username: user.Username,
+						Email: user.Email,
+						Birthday: user.Birthday,
+						FavouriteMovies: user.FavouriteMovies,
+					};
+					res.status(201).json(respData);
+				} else {
+					res.status(404).send('User Not Found');
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
 
 // Get all users
 // app.get(
@@ -222,31 +227,31 @@ app.put('/users/:Username', (req, res) => {
 // 	}
 // );
 
-// Get all user by username
-// app.get(
-// 	'/users/:Username',
-// 	passport.authenticate('jwt', { session: false }),
-// 	(req, res) => {
-// 		Users.findOne({ Username: req.params.Username })
-// 			.then((user) => {
-// 				if (user) {
-// 					respData = {
-// 						Username: user.Username,
-// 						Email: user.Email,
-// 						Birthday: user.Birthday,
-// 						FavouriteMovies: user.FavouriteMovies,
-// 					};
-// 					res.status(201).json(respData);
-// 				} else {
-// 					res.status(404).send('User Not Found');
-// 				}
-// 			})
-// 			.catch((err) => {
-// 				console.error(err);
-// 				res.status(500).send('Error: ' + err);
-// 			});
-// 	}
-// );
+Get all user by username
+app.get(
+	'/users/:Username',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Users.findOne({ Username: req.params.Username })
+			.then((user) => {
+				if (user) {
+					respData = {
+						Username: user.Username,
+						Email: user.Email,
+						Birthday: user.Birthday,
+						FavouriteMovies: user.FavouriteMovies,
+					};
+					res.status(201).json(respData);
+				} else {
+					res.status(404).send('User Not Found');
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
 
 // Allow user to update favorite movies 
 
