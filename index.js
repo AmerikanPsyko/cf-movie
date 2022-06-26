@@ -206,6 +206,48 @@ app.put('/users/:Username', (req, res) => {
   });
 });
 
+// Get all users
+app.get(
+	'/users',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Users.find()
+			.then((users) => {
+				res.status(201).json(users);
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
+
+// Get all user by username
+app.get(
+	'/users/:Username',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Users.findOne({ Username: req.params.Username })
+			.then((user) => {
+				if (user) {
+					respData = {
+						Username: user.Username,
+						Email: user.Email,
+						Birthday: user.Birthday,
+						FavouriteMovies: user.FavouriteMovies,
+					};
+					res.status(201).json(respData);
+				} else {
+					res.status(404).send('User Not Found');
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
+
 // Allow user to update favorite movies 
 
 app.post('/users/:Username/movies/:MovieID', (req, res) => {
