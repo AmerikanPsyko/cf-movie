@@ -242,7 +242,7 @@ app.get(
 						Username: user.Username,
 						Email: user.Email,
 						Birthday: user.Birthday,
-						Favourites: user.FavouriteMovies,
+						Favorites: user.FavoriteMovies,
 					};
 					res.status(201).json(respData);
 				} else {
