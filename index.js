@@ -258,7 +258,9 @@ app.get(
 
 // Allow user to update favorite movies 
 
-app.post('/users/:Username/movies/:MovieID', (req, res) => {
+app.post('/users/:Username/movies/:MovieID', 
+passport.authenticate('jwt', { session: false}),
+(req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
      $push: { Favorites: req.params.MovieID }
    },
@@ -275,7 +277,9 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 
 // Delete movie from favorites
 
-app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+app.delete('/users/:Username/movies/:MovieID', 
+passport.authenticate('jwt', { session: false}),
+(req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
      $pull: { Favorites: req.params.MovieID }
    },
