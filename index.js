@@ -256,6 +256,30 @@ app.get(
 	}
 );
 
+// Get user movies from fav
+app.get(
+	'/users/:Username/movies',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Users.findOne({ Username: req.params.Username })
+			.then((user) => {
+				if (user) {
+					respData = {
+						
+						Favorites: user.Favorites,
+					};
+					res.status(201).json(respData);
+				} else {
+					res.status(404).send('User Not Found');
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
+
 // Allow user to update favorite movies 
 
 app.post('/users/:Username/movies/:MovieID', 
