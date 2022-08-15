@@ -261,7 +261,7 @@ app.get(
 	'/users/:Username/movies',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		Movies.find({ Username: req.params.Username })
+		Users.find({ Username: req.params.Username })
 			.then((user) => {
 				if (user) {
 					
