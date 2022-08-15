@@ -264,10 +264,7 @@ app.get(
 		Users.findOne({ Username: req.params.Username })
 			.then((user) => {
 				if (user) {
-					respData = {
-						
-						
-					};
+					
 					res.status(201).json(user.FavoriteMovies);
 				} else {
 					res.status(404).send('User Not Found');
