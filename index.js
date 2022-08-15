@@ -266,9 +266,9 @@ app.get(
 				if (user) {
 					respData = {
 						
-						Favorites: user.Favorites,
+						
 					};
-					res.status(201).json(respData);
+					res.status(201).json(user.FavoriteMovies);
 				} else {
 					res.status(404).send('User Not Found');
 				}
