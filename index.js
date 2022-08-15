@@ -265,7 +265,7 @@ app.get(
 			.then((user) => {
 				if (user) {
 					
-					res.status(201).json(user.FavoriteMovies);
+					res.status(201).json(user.favoriteMovies);
 				} else {
 					res.status(404).send('User Not Found');
 				}
