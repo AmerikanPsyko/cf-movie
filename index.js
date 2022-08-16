@@ -258,19 +258,19 @@ app.get(
 
 // Get user movies from fav
 app.get(
-	'/users/:Username/Favorites',
+	'/users/:Username/favorites',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
-		Users.find({ Username: req.params.Username })
+		Users.findOne({ Username: req.params.Username })
 			.then((user) => {
 				if (user) {
 					respData = {
-            Email: user.Email,
-            Favorites: user.Favorites
-          }
-          res.status(201).json(respData)
-					
-			
+						
+						Favorites: user.Favorites,
+					};
+					res.status(201).json(respData);
+				} else {
+					res.status(404).send('User Not Found');
 				}
 			})
 			.catch((err) => {
