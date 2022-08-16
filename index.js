@@ -257,25 +257,29 @@ app.get(
 );
 
 // Get user movies from fav
-// app.get(
-// 	'/users/:Username/movies',
-// 	passport.authenticate('jwt', { session: false }),
-// 	(req, res) => {
-// 		Users.find({ Username: req.params.Username })
-// 			.then((user) => {
-// 				if (user) {
+app.get(
+	'/users/:Username/movies',
+	passport.authenticate('jwt', { session: false }),
+	(req, res) => {
+		Users.find({ Username: req.params.Username })
+			.then((user) => {
+				if (user) {
 					
-// 					res.status(201).json(user.favoriteMovies);
-// 				} else {
-// 					res.status(404).send('User Not Found');
-// 				}
-// 			})
-// 			.catch((err) => {
-// 				console.error(err);
-// 				res.status(500).send('Error: ' + err);
-// 			});
-// 	}
-// );
+          resData = {
+            Favorites: user.FavoriteMovies
+          }
+
+					res.status(201).json(resData)
+				} else {
+					res.status(404).send('User Not Found');
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+				res.status(500).send('Error: ' + err);
+			});
+	}
+);
 
 // Allow user to update favorite movies 
 
