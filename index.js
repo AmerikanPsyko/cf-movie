@@ -265,7 +265,7 @@ app.get(
 			.then((user) => {
 				if (user) {
 					respData = {
-            Favorites: user.favorites
+            Favorites: user.favorites.MovieID
           }
           res.status(201).json(respData)
 					
