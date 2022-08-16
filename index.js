@@ -258,14 +258,14 @@ app.get(
 
 // Get user movies from fav
 app.get(
-	'/users/:Username/MovieID',
+	'/users/:Username/favorites',
 	passport.authenticate('jwt', { session: false }),
 	(req, res) => {
 		Users.find({ Username: req.params.Username })
 			.then((user) => {
 				if (user) {
 					respData = {
-            Favorites: user.favoriteMovies
+            Favorites: user.favorites
           }
           res.status(201).json(respData)
 					
