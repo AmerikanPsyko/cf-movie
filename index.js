@@ -264,8 +264,11 @@ app.get(
 		Users.find({ Username: req.params.Username })
 			.then((user) => {
 				if (user) {
+					respData = {
+            favoriteMovies: user.favoriteMovies
+          }
+          res.status(201).json(respData)
 					
-					res.status(201).json(user.favoriteMovies);
 			
 				}
 			})
