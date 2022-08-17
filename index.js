@@ -39,7 +39,10 @@ app.use(cors());
 
 // Express validator ---------
 //----------------------------
-
+/**
+ * @constant
+ * @type {string}
+ */
 const { check, validationResult} = require('express-validator');
 
 // Authenticate and Authorize
